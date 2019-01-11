@@ -1,0 +1,25 @@
+doctype html
+html
+    include include/header.pug
+    body
+        div.wrapper
+            include include/sidebar.pug
+            div.main-panel
+                include include/nav.pug
+                div.content
+                    form(method='post' action='/login')
+                        div.row
+                            div.offset-md-3.col-md-6
+                                div.card
+                                    div.card-header
+                                        h4 LOGIN
+                                    div.card-body
+                                        div.form-group
+                                            label id
+                                            input.form-control(type='text' name='id')
+                                        div.form-group
+                                            label password
+                                            input.form-control(type='text' name='pw')
+                                    div.card-footer.mx-auto
+                                        button.btn.btn-primary.btn-round(type='submit') LOGIN
+include include/footer.pug

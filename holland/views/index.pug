@@ -1,0 +1,23 @@
+doctype html
+html
+    include include/header.pug
+    body
+        div.wrapper
+            include include/sidebar.pug
+            div.main-panel
+                include include/nav.pug
+                div.content
+                    div.row
+                        div.col-md-4
+                            div.card.card-user
+                                div.image
+                                    img(src='/static/assets/img/damir-bosnjak.jpg' alt='...')
+                                div.card-body
+                                    div.author
+                                        a(href='#')
+                                            img.avatar.border-gray(src='/static/assets/img/mike.jpg' alt='...')
+                                            h5.title Chet Faker
+                                        p.description @superEggSong
+
+
+include include/footer.pug

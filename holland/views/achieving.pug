@@ -1,0 +1,467 @@
+doctype html
+html
+    include include/header.pug
+    body
+        div.wrapper
+            include include/sidebar.pug
+            div.main-panel
+                include include/nav.pug
+                div.content
+                    div.row
+                        div.col-md-4
+                            div.card.card-user
+                                div.image
+                                    img(src='/static/assets/img/damir-bosnjak.jpg')
+                                div.card-body
+                                    div.author
+                                        a(href="#" data-toggle='modal' data-target='#modal_profile')
+                                            img.avatar.border-gray(src='/static/assets/img/mike.jpg')
+                                            h5.title #{user.name}
+                                        p.description #{user.position}
+                                    p.description.text-center 여기는 나의 좌우명을 적는 공간 <br> 봉수리봉봉 <br> 뤠디오 뿡뿡
+                                div.card-footer
+                                    hr
+                                    div.button-container
+                                        div.row
+                                            div.col-lg-3.col-md-6.col-6.ml-auto
+                                                h5 12
+                                                    br
+                                                    small Files
+                                            div.col-lg-4.col-md6.col-6.ml-auto.mr-auto
+                                                h5 2GB
+                                                    br
+                                                    small Used
+                                            div.col-lg-3.mr-auto
+                                                h5 24,6$
+                                                    br
+                                                    small Spent
+                            div.card
+                                div.card-header
+                                    ul.list-unstyled
+                                        li
+                                            div.row
+                                                div.col-md-8.col-8
+                                                    h4.card-title Team Members
+                                                div.col-md-4.col-4
+                                                    button.btn.btn-primary.brn-round(id='createNewMember') 새 멤버 +
+                                div.card-body
+                                    ul.list-unstyled.team-members
+                                        li
+                                        each item in team
+                                            div.row
+                                                div.col-md-2.col-2
+                                                    div.avatar
+                                                        img.img-circle.img-no-padding.img-reponsive(src='/static/assets/img/default-avatar.png' alt='Circle Image')
+                                                div.col-md-7.col-7 #{item.name}
+                                                    br
+                                                    span.text-muted
+                                                        small #{item.position}
+                                                div.col-md-3.col-3.text-right
+                                                    a(href='../achieving/' + item._id)
+                                                        button.btn.btn-sm.btn-outline-success.btn-round.btn-icon
+                                                            i.nc-icon.nc-zoom-split
+                        div.col-md-8
+                            div.card.card-user
+                                div.card-header
+                                    h5.card-title(name='title') 신규 등록
+                                div.card-body
+                                    form(name='createForm')
+                                        div.row
+                                            div.col-md-3
+                                                div.form-group
+                                                    label 이름
+                                                    input.form-control(type='text' name='name')
+                                            div.col-md-2
+                                                div.form-group
+                                                    label 나이
+                                                    input.form-control(type='number' name='age')
+                                            div.col-md-2
+                                                div.form-group
+                                                    label 성별
+                                                    input.form-control(type='text' name='gender')
+                                            div.col-md-5
+                                                div.form-group
+                                                    label 찾기 컨셉
+                                                    input.form-control(type='text' name='concept')
+                                        div.row
+                                            div.col-md-5
+                                                div.form-group
+                                                    label 거주지
+                                                    input.form-control(type='text' name='address')
+                                            div.col-md-3
+                                                div.form-group
+                                                    label 신앙유무
+                                                    input.form-control(type='text' name='faith')
+                                            div.col-md-4
+                                                div.form-group
+                                                    label 찾기장소
+                                                    input.form-control(type='text' name='location')
+                                        div.row
+                                            div.col-md-6
+                                                div.form-group
+                                                    label 찾은 날짜
+                                                    div.form-group.date
+                                                        input.form-control#datepicker(type='text' name='date')
+                                        div.row
+                                            div.col-md-6
+                                                div.form-group
+                                                    label 고민
+                                                    textarea.form-control(name='worry')
+                                            div.col-md-6
+                                                div.form-group
+                                                    label 관심사
+                                                    textarea.form-control(name='interest')
+                                        div.row
+                                            div.col-md-6
+                                                div.form-group
+                                                    label 환경
+                                                    textarea.form-control(name='environment')
+                                            div.col-md-6
+                                                div.form-group
+                                                    label 기타
+                                                    textarea.form-control(name='etc')
+                                        div.row
+                                            div.col-md-4
+                                                div.form-group
+                                                    label 단계
+                                                    input.form-control(name='level')
+                                            div.col-md-8
+                                                div.form-group
+                                                    label 피드백
+                                                    textarea.form-control(name='feedback')
+                                        div.row
+                                            div.update.ml-auto.mr-auto
+                                                button.btn.btn-primary.btn-round(type='button' id='btn_submit') 제출하기
+                                                button.btn.btn-info.btn-round(type='button' id='btn_reset') reset
+                                        input(type='hidden' name='id')
+                                        input(type='hidden' name='leader_id' value=user._id)
+                    div.row
+                        div.col-12
+                            div.card
+                                div.card-header
+                                    h4.card-title List
+                                div.card-body
+                                    div.table-responsive
+                                        table.table.table-hover
+                                            thead.text-primary
+                                                th #
+                                                th 찾은 날짜
+                                                th 이름
+                                                th 나이
+                                                th 성별
+                                                th 찾기컨셉
+                                                th 거주지
+                                                th 신앙유무
+                                                th 찾기장소
+                                                th
+                                            tbody
+                                            each item, idx in list
+                                                tr(id=item._id)
+                                                    td #{idx + 1}
+                                                    td #{item.date}
+                                                    td #{item.name}
+                                                    td #{item.age}
+                                                    td #{item.gender}
+                                                    td #{item.concept}
+                                                    td #{item.address}
+                                                    td #{item.faith}
+                                                    td #{item.location}
+                                                    td
+                                                        button.btn.btn-sm.btn-outline-danger.btn-round.btn-icon(name='delete' data-store=item._id)
+                                                            i.fa.fa-times
+        div.modal.fade#modal_profile(tabindex='-1' role='dialog' aria-hidden='true')
+            div.modal-dialog.modal-lg(role='document')
+                div.modal-content
+                    form(name='userForm')
+                        div.modal-header
+                            div.row
+                                div.col-md-3.pr-1
+                                    div.input-group
+                                        input.form-control.text-center(type='text' name='team' value=user.team)
+                                        div.input-group-append
+                                            span.input-group-text.text-center
+                                                span 팀
+                                div.col-md-3.pl-1
+                                    div.input-group
+                                        input.form-control.text-center(type='text' name='section' value=user.section)
+                                        div.input-group-append
+                                            span.input-group-text.text-center
+                                                span 구역
+                        div.modal-body
+                            div.row
+                                div.col-md-3.pr-1
+                                    div.form-group
+                                        label 이름
+                                        input.form-control(type='text' name='name' value=user.name)
+                                div.col-md-2.px-1
+                                    div.form-group
+                                        label 나이
+                                        input.form-control(type='number' name='age' value=user.age)
+                                div.col-md-2.px-1
+                                    div.form-group
+                                        label 혈액형
+                                        input.form-control(type='text' name='bloodType' value=user.bloodType)
+                                div.col-md-5.pl-1
+                                    div.form-group
+                                        label 고유번호
+                                        input.form-control(type='text' name='id_code' value=user.id_code)
+                            div.row
+                                div.col-md-3.pr-1
+                                    div.form-group
+                                        label 직책
+                                        input.form-control(type='text' name='position' value=user.position)
+                                div.col-md-4.px-1
+                                    div.form-group
+                                        label 연락처
+                                        input.form-control(type='text' name='tel' value=user.tel)
+                                div.col-md-5.pl-1
+                                    div.form-group
+                                        label email
+                                        input.form-control(type='text' name='email' value=user.email)
+                            div.row
+                                div.col-md-3.pr-1
+                                    div.form-group
+                                        label 생년월일
+                                        input.form-control(type='text' name='birthday' value=user.birthday)
+                                div.col-md-7.px-1
+                                    div.form-group
+                                        label 주소
+                                        input.form-control(type='text' name='address' value=user.address)
+                                div.col-md-2.pl-1
+                                    div.form-group
+                                        label 오픈유무
+                                        input.form-control(type='text' name='s_open' value=user.s_open)
+                            div.row
+                                div.col-md-6.pr-1
+                                    div.form-group
+                                        label 가족관계
+                                        input.form-control(type='text' name='family' value=user.family)
+                                div.col-md-3.px-1
+                                    div.form-group
+                                        label 학교
+                                        input.form-control(type='text' name='school' value=user.school)
+                                div.col-md-3.pl-1
+                                    div.form-group
+                                        label 전공
+                                        input.form-control(type='text' name='major' value=user.major)
+                            div.row
+                                div.col-md-3.pr-1
+                                    div.form-group
+                                        label 직업
+                                        input.form-control(type='text' name='office' value=user.office)
+                                div.col-md-3.px-1
+                                    div.form-group
+                                        label 섭외유형
+                                        input.form-control(type='text' name='pickup_type' value=user.pickup_type)
+                                div.col-md-2.px-1
+                                    div.form-group
+                                        label 신앙년수(바벨)
+                                        input.form-control(type='number' name='faith_year' value=user.faith_year)
+                                div.col-md-2.px-1
+                                    div.form-group
+                                        label 병역여부
+                                        input.form-control(type='text' name='army' value=user.army)
+                                div.col-md-2.pl-1
+                                    div.form-group
+                                        label 핍박유무
+                                        input.form-control(type='text' name='persecution' value=user.persecution)
+                            div.row
+                                div.col-md-3.pr-1
+                                    div.form-group
+                                        label 이성친구
+                                        input.form-control(type='text' name='couple' value=user.couple)
+                                div.col-md-3.px-1
+                                    div.form-group
+                                        label 사회경험
+                                        input.form-control(type='text' name='social_exp' value=user.social_exp)
+                                div.col-md-2.px-1
+                                    div.form-group
+                                        label 외국어 능력
+                                        input.form-control(type='text' name='foreign' value=user.foreign)
+                                div.col-md-2.px-1
+                                    div.form-group
+                                        label 결혼유무
+                                        input.form-control(type='text' name='marry' value=user.marry)
+                                div.col-md-2.pl-1
+                                    div.form-group
+                                        label 차량유무
+                                        input.form-control(type='text' name='car' value=user.car)
+                            div.row
+                                div.col-md-4.pr-1
+                                    div.form-group
+                                        label 인도자
+                                        input.form-control(type='text' name='s_leader' value=user.s_leader)
+                                div.col-md-4.px-1
+                                    div.form-group
+                                        label 교사
+                                        input.form-control(type='text' name='s_teacher' value=user.s_teacher)
+                                div.col-md-4.pl-1
+                                    div.form-group
+                                        label 잎사귀
+                                        input.form-control(type='text' name='s_leaf' value=user.s_leaf)
+                            div.row
+                                div.col-md-4.pr-1
+                                    div.form-group
+                                        label 강사
+                                        input.form-control(type='text' name='s_lecturer' value=user.s_lecturer)
+                                div.col-md-4.px-1
+                                    div.form-group
+                                        label 전도사
+                                        input.form-control(type='text' name='s_missionary' value=user.s_missionary)
+                                div.col-md-4.pl-1
+                                    div.form-group
+                                        label 자격증
+                                        input.form-control(type='text' name='certificate' value=user.certificate)
+                        input(type='hidden' name='user_id' value=user._id)
+                    div.modal-footer
+                        button.btn.btn-secondary(type='button' data-dismiss='modal') Close
+                        button.btn.btn-primary#btn_user_create(type='button') Update
+
+        div.modal.fade#modal_new_member(tabindex='-1' role='dialog' aria-hidden='true')
+            div.modal-dialog.modal-lg(role='document')
+                div.modal-content
+                    form(name='newMemberForm')
+                        div.modal-header
+                            div.row
+                                div.col-md-3.pr-1
+                                    div.input-group
+                                        input.form-control.text-center(type='text' name='team')
+                                        div.input-group-append
+                                            span.input-group-text.text-center
+                                                span 팀
+                                div.col-md-3.pl-1
+                                    div.input-group
+                                        input.form-control.text-center(type='text' name='section')
+                                        div.input-group-append
+                                            span.input-group-text.text-center
+                                                span 구역
+                        div.modal-body
+                            div.row
+                                div.col-md-3.pr-1
+                                    div.form-group
+                                        label 이름
+                                        input.form-control(type='text' name='name')
+                                div.col-md-2.px-1
+                                    div.form-group
+                                        label 나이
+                                        input.form-control(type='number' name='age')
+                                div.col-md-2.px-1
+                                    div.form-group
+                                        label 혈액형
+                                        input.form-control(type='text' name='bloodType')
+                                div.col-md-5.pl-1
+                                    div.form-group
+                                        label 고유번호
+                                        input.form-control(type='text' name='id_code')
+                            div.row
+                                div.col-md-3.pr-1
+                                    div.form-group
+                                        label 직책
+                                        input.form-control(type='text' name='position')
+                                div.col-md-4.px-1
+                                    div.form-group
+                                        label 연락처
+                                        input.form-control(type='text' name='tel')
+                                div.col-md-5.pl-1
+                                    div.form-group
+                                        label email
+                                        input.form-control(type='text' name='email')
+                            div.row
+                                div.col-md-3.pr-1
+                                    div.form-group
+                                        label 생년월일
+                                        input.form-control(type='text' name='birthday')
+                                div.col-md-7.px-1
+                                    div.form-group
+                                        label 주소
+                                        input.form-control(type='text' name='address')
+                                div.col-md-2.pl-1
+                                    div.form-group
+                                        label 오픈유무
+                                        input.form-control(type='text' name='s_open')
+                            div.row
+                                div.col-md-6.pr-1
+                                    div.form-group
+                                        label 가족관계
+                                        input.form-control(type='text' name='family')
+                                div.col-md-3.px-1
+                                    div.form-group
+                                        label 학교
+                                        input.form-control(type='text' name='school')
+                                div.col-md-3.pl-1
+                                    div.form-group
+                                        label 전공
+                                        input.form-control(type='text' name='major')
+                            div.row
+                                div.col-md-3.pr-1
+                                    div.form-group
+                                        label 직업
+                                        input.form-control(type='text' name='office')
+                                div.col-md-3.px-1
+                                    div.form-group
+                                        label 섭외유형
+                                        input.form-control(type='text' name='pickup_type')
+                                div.col-md-2.px-1
+                                    div.form-group
+                                        label 신앙년수(바벨)
+                                        input.form-control(type='number' name='faith_year')
+                                div.col-md-2.px-1
+                                    div.form-group
+                                        label 병역여부
+                                        input.form-control(type='text' name='army')
+                                div.col-md-2.pl-1
+                                    div.form-group
+                                        label 핍박유무
+                                        input.form-control(type='text' name='persecution')
+                            div.row
+                                div.col-md-3.pr-1
+                                    div.form-group
+                                        label 이성친구
+                                        input.form-control(type='text' name='couple')
+                                div.col-md-3.px-1
+                                    div.form-group
+                                        label 사회경험
+                                        input.form-control(type='text' name='social_exp')
+                                div.col-md-2.px-1
+                                    div.form-group
+                                        label 외국어 능력
+                                        input.form-control(type='text' name='foreign')
+                                div.col-md-2.px-1
+                                    div.form-group
+                                        label 결혼유무
+                                        input.form-control(type='text' name='marry')
+                                div.col-md-2.pl-1
+                                    div.form-group
+                                        label 차량유무
+                                        input.form-control(type='text' name='car')
+                            div.row
+                                div.col-md-4.pr-1
+                                    div.form-group
+                                        label 인도자
+                                        input.form-control(type='text' name='s_leader')
+                                div.col-md-4.px-1
+                                    div.form-group
+                                        label 교사
+                                        input.form-control(type='text' name='s_teacher')
+                                div.col-md-4.pl-1
+                                    div.form-group
+                                        label 잎사귀
+                                        input.form-control(type='text' name='s_leaf')
+                            div.row
+                                div.col-md-4.pr-1
+                                    div.form-group
+                                        label 강사
+                                        input.form-control(type='text' name='s_lecturer')
+                                div.col-md-4.px-1
+                                    div.form-group
+                                        label 전도사
+                                        input.form-control(type='text' name='s_missionary')
+                                div.col-md-4.pl-1
+                                    div.form-group
+                                        label 자격증
+                                        input.form-control(type='text' name='certificate')
+                    div.modal-footer
+                        button.btn.btn-secondary(type='button' data-dismiss='modal') Close
+                        button.btn.btn-primary#btn_newMember_create(type='button') Create
+include include/footer.pug
+script(src='/static/assets/js/custom/achieving.js')
